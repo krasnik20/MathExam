@@ -24,10 +24,8 @@ function gameInit()
             g_direction = RIGHT;
     }
     document.body.onkeyup = (event) => g_direction = STAND;
-    //window.onload = gameMenu;
-    for(let i = 0; i < 4; i++)
-        enemies[i] = validateNPC(enemies[i]);
-    enemies[3].img.onload = gameMenu;
+    //enemies[3].img.onload = gameMenu;
+    document.addEventListener("DOMContentLoaded", gameMenu);
 }
 function gameMenu()
 {
@@ -63,8 +61,24 @@ function gameStart()
     enemies = [];
     helper = null;
     g_counter.reset();
-    g_intervalId = setInterval(this.gameTick, 1000 / FPS);
+    document.body.onclick = function (event) 
+    {
+        g_pauseButton.clicked(event.clientX, event.clientY);
+    }
+    document.body.ontouchmove = function (event) 
+    {
+        alert("touched");
+    }
+    gameContinue();
+}
+function gameContinue()
+{
+    g_intervalId = setInterval(gameTick, 1000 / FPS);
     g_pauseButton.init();
+}
+function gamePause()
+{
+    clearInterval(g_intervalId);
 }
 function gameTick()
 {

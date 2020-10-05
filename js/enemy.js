@@ -1,9 +1,8 @@
-class Enemy
+class NPC 
 {
-    constructor(x, y, key, speed)
+    constructor(x, y, speed)
     {
         this.img = new Image();
-        this.img.src = "images/enemycar" + key + ".png";
         this.width = g_canvas.width / 6;
         this.height = this.width * 1.4;
         this.speed = speed;
@@ -18,11 +17,19 @@ class Enemy
         g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 }
-class Helper extends Enemy
+class Enemy extends NPC
 {
     constructor(x, y, key, speed)
     {
-        super(x,y, -1, speed);
+        super(x,y,speed);
+        this.img.src = "images/enemycar" + key + ".png";
+    }
+}
+class Helper extends NPC
+{
+    constructor(x, y, key, speed)
+    {
+        super(x,y, speed);
         this.img.src = "images/helper1.png"
     }
     hide()

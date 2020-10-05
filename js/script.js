@@ -46,28 +46,29 @@ var g_pauseButton =
     img: new Image(),
     imgContinue: new Image(),
     imgStop: new Image(),
-    sx: 0,
+    paused: false,
     draw: function() { g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height) },
-    pause: function()
+    clicked: function(x, y)
     {
-        document.body.onclick = function(event) {
-            if (event.clientX > g_canvas.width - 60 && event.clientY < 60) gameStart();
-        };
-        this.img = this.imgContinue;
+        if(x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height)
+            if(paused)
+            {
+                paused = false;
+                this.img = this.imgStop;
+            }
+            else
+            {
+                paused = true;
+                this.img = this.imgContinue;
+            }
         this.draw();
-        clearInterval(g_intervalId);
     },
     init: function() 
     {   
         this.imgStop.src = "images/pause.png";
         this.imgContinue.src = "images/continue.png";
         this.img = this.imgStop;
-        document.body.onclick = function (event) {
-            if (g_pauseButton.isTouched(event.clientX, event.clientY))
-                g_pauseButton.pause();
-        }
-    },
-    isTouched: function(x, y) { return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height  ? true : false }
+    }
 }
 var enemies = [];
 var helper;
