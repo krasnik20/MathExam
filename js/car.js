@@ -1,9 +1,8 @@
 class Car
 {
-    constructor(src, width, height, forwardSpeed, backwardSpeed, turnSpeed)
+    constructor(img, width, height, forwardSpeed, backwardSpeed, turnSpeed)
     {
-        this.img = new Image();
-        this.img.src = src;
+        this.img = img;
         this.height = height;
         this.width = width;
         this.x = g_canvas.width / 2 - width / 2;
@@ -18,6 +17,12 @@ class Car
         if (g_direction == RIGHT) this.x += this.turnSpeed;
         if (g_direction == UP) this.y -= this.forwardSpeed;
         if (g_direction == DOWN) this.y += this.backwardSpeed;
+        if (g_direction == TOUCH) {
+            if(Math.abs(this.destX - this.x) > this.turnSpeed)
+                this.x += this.destX - this.x > 0 ? this.turnSpeed : -this.turnSpeed;
+            if(Math.abs(this.destY - this.y) > this.forwardSpeed)
+                this.y += this.destY - this.y > 0 ? -this.backwardSpeed : this.forwardSpeed;
+        }
         if (this.y > g_canvas.height - 20 - this.height) this.y -= this.backwardSpeed; 
         if (this.y < 50) this.y += this.forwardSpeed; 
         if (this.x < 10) this.x += this.turnSpeed; 
@@ -29,5 +34,10 @@ class Car
         if ((this.x <= enemy.cornerX && this.x >= enemy.x) && ((this.cornerY >= enemy.y && this.cornerY <= enemy.cornerY) || (this.y >= enemy.y && this.y <= enemy.cornerY))) return true;
         if ((this.cornerX <= enemy.cornerX && this.cornerX >= enemy.x) && ((this.cornerY >= enemy.y && this.cornerY <= enemy.cornerY) || (this.y >= enemy.y && this.y <= enemy.cornerY))) return true;
         return false;
+    }
+    setDestination(x,y)
+    {
+        this.destX = x;
+        this.destY = y;
     }
 }

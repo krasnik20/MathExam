@@ -13,6 +13,7 @@ getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 function gameInit()
 {
     //не нравится
+    uploadImages();
     document.body.onkeydown = (event) => {
         if (event.which == UP || event.which == ANOTHERUP)
             g_direction = UP;
@@ -24,22 +25,16 @@ function gameInit()
             g_direction = RIGHT;
     }
     document.body.onkeyup = (event) => g_direction = STAND;
-    //enemies[3].img.onload = gameMenu;
-    document.addEventListener("DOMContentLoaded", gameMenu);
+    window.onload = gameMenu;
 }
 function gameMenu()
-{
-    const numberOfCars = 3;     
-    
+{   
     g_ctx.fillStyle = "#111111";
     g_ctx.fillRect(0, 0, g_canvas.width, g_canvas.height); 
     let phrases = ["Herman Terekhov's girl","Lexa228 aka Lehych","Rostiks"];
-    let paths = ["images/btr1.png","images/br1.png","images/bugatti.png"];
     for (let i = 0; i < numberOfCars; i++)
     {
-        let img = new Image();
-        img.src = paths[i];
-        img.onload = () => g_ctx.drawImage(img, g_canvas.width / 20, g_canvas.height / numberOfCars * i + g_canvas.height / (numberOfCars * 7), g_canvas.height / numberOfCars / 1.5, g_canvas.height / numberOfCars / 1.5 * 0.538);
+        g_ctx.drawImage(images['car'+(i+1)], g_canvas.width / 20, g_canvas.height / numberOfCars * i + g_canvas.height / (numberOfCars * 7), g_canvas.height / numberOfCars / 1.5, g_canvas.height / numberOfCars / 1.5 * 0.538);
         g_ctx.fillStyle = "#555555";
         g_ctx.fillStyle = "#ffffff";
         g_ctx.font = "Normal " + g_canvas.height / 25 + "pt Arial";
@@ -48,11 +43,12 @@ function gameMenu()
     document.body.onclick = function (event)
     {
         if (event.clientY < g_canvas.height / numberOfCars)
-            currentCar = new Car("images/btr1.png", g_canvas.width / 8, g_canvas.width / 8 * 1.18, 3, 4, 10);
+            currentCar = new Car(images['car1'], g_canvas.width / 8, g_canvas.width / 8 * 1.18, 3, 4, 10);
         else if (event.clientY < g_canvas.height / numberOfCars * 2)
-            currentCar = new Car("images/br1.png", g_canvas.width / 8, g_canvas.width / 8 * 0.47, 10, 7, 15);
+            currentCar = new Car(images['car2'], g_canvas.width / 8, g_canvas.width / 8 * 0.47, 10, 7, 15);
         else
-            currentCar = new Car("images/bugatti.png", g_canvas.width / 8, g_canvas.width / 8 * 1.44, 20, 7, 20);
+            currentCar = new Car(images['car3'], g_canvas.width / 8, g_canvas.width / 8 * 1.44, 20, 7, 20);
+        document.body.ontouchmove = (event) => g_direction = TOUCH, currentCar.setDestination(event.clientX, event.clientY);
         gameStart();
     }
 }
@@ -64,10 +60,6 @@ function gameStart()
     document.body.onclick = function (event) 
     {
         g_pauseButton.clicked(event.clientX, event.clientY);
-    }
-    document.body.ontouchmove = function (event) 
-    {
-        alert("touched");
     }
     gameContinue();
 }

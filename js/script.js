@@ -28,6 +28,7 @@ var LEFT = 65;
 var RIGHT = 68;
 var UP = 87;
 var DOWN = 83;
+var TOUCH = 1;
 var ANOTHERLEFT = 37;
 var ANOTHERRIGHT = 39;
 var ANOTHERUP = 38;
@@ -36,6 +37,8 @@ var STAND = 0;
 var FPS = 60;
 var g_direction = STAND;
 var g_intervalId;
+const numberOfEnemies = 6;
+const numberOfCars = 3; 
 
 var g_pauseButton = 
 {
@@ -43,43 +46,61 @@ var g_pauseButton =
     y: 0,
     width: 50,
     height: 50,
-    img: new Image(),
-    imgContinue: new Image(),
-    imgStop: new Image(),
     paused: false,
     draw: function() { g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height) },
     clicked: function(x, y)
     {
         if(x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height)
-            if(paused)
+            if(this.paused)
             {
-                paused = false;
+                this.paused = false;
                 this.img = this.imgStop;
+                gameContinue();
             }
             else
             {
-                paused = true;
+                this.paused = true;
                 this.img = this.imgContinue;
+                gamePause();
             }
         this.draw();
     },
     init: function() 
     {   
-        this.imgStop.src = "images/pause.png";
-        this.imgContinue.src = "images/continue.png";
+        this.imgStop = images['pauseStop'];
+        this.imgContinue = images['pauseContinue'];
         this.img = this.imgStop;
     }
 }
 var enemies = [];
+var images = [];
+function uploadImages()
+{
+    for(let i = 1; i <= numberOfEnemies; i++) 
+    {
+        images['enemy' + i] = new Image();
+        images['enemy' + i].src = "images/enemycar" + i + ".png";
+    }
+    for(let i = 1; i <= numberOfCars; i++) 
+    {
+        console.log('car' + i);
+        images['car' + i] = new Image();
+        images['car' + i].src = "images/car" + i + ".png";
+    }
+    images['road'] = new Image();
+    images['road'].src = "images/road.png";
+    images['pauseContinue'] = new Image();
+    images['pauseContinue'].src = "images/continue.png";
+    images['pauseStop'] = new Image();
+    images['pauseStop'].src = "images/pause.png";
+}
 var helper;
 var road = 
 {
-    img: new Image (),
     show: function() 
     { 
-        g_ctx.drawImage(this.img, 0, 0, g_canvas.width, g_canvas.height); 
+        g_ctx.drawImage(images['road'], 0, 0, g_canvas.width, g_canvas.height); 
     }
 }
-road.img.src = "images/road.png";
 gameInit();
 
