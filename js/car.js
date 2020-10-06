@@ -21,7 +21,7 @@ class Car
             if(Math.abs(this.destX - this.x) > this.turnSpeed)
                 this.x += this.destX - this.x > 0 ? this.turnSpeed : -this.turnSpeed;
             if(Math.abs(this.destY - this.y) > this.forwardSpeed)
-                this.y += this.destY - this.y > 0 ? -this.backwardSpeed : this.forwardSpeed;
+                this.y += this.destY - this.y > 0 ? +this.backwardSpeed : -this.forwardSpeed;
         }
         if (this.y > g_canvas.height - 20 - this.height) this.y -= this.backwardSpeed; 
         if (this.y < 50) this.y += this.forwardSpeed; 
@@ -37,6 +37,7 @@ class Car
     }
     setDestination(x,y)
     {
+        console.log(x + " " + y);
         this.destX = x;
         this.destY = y;
     }

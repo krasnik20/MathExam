@@ -12,7 +12,9 @@ function validateNPC(npc, type = Enemy)
 getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 function gameInit()
 {
-    //не нравится
+    /*if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      } else {
+    }*/
     uploadImages();
     document.body.onkeydown = (event) => {
         if (event.which == UP || event.which == ANOTHERUP)
@@ -48,7 +50,10 @@ function gameMenu()
             currentCar = new Car(images['car2'], g_canvas.width / 8, g_canvas.width / 8 * 0.47, 10, 7, 15);
         else
             currentCar = new Car(images['car3'], g_canvas.width / 8, g_canvas.width / 8 * 1.44, 20, 7, 20);
-        document.body.ontouchmove = (event) => g_direction = TOUCH, currentCar.setDestination(event.clientX, event.clientY);
+        
+        g_canvas.addEventListener("touchstart", (event) => { g_direction = TOUCH, currentCar.setDestination(event.changedTouches[0].clientX, event.changedTouches[0].clientY) });
+        g_canvas.addEventListener("touchmove", (event) => { currentCar.setDestination(event.changedTouches[0].clientX, event.changedTouches[0].clientY) });
+        g_canvas.addEventListener("touchend", (event) => { g_direction = STAND } );
         gameStart();
     }
 }
