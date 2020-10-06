@@ -37,7 +37,6 @@ class Car
     }
     setDestination(x,y)
     {
-        console.log(x + " " + y);
         this.destX = x;
         this.destY = y;
     }
