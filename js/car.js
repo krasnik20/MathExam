@@ -34,7 +34,7 @@ class Car {
         g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
     collision(enemy) {
-        let error = this.width / 10;
+        let error = this.width / 12;
         if (
             this.x <= enemy.cornerX - error &&
             this.x >= enemy.x + error &&

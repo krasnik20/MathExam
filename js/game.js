@@ -8,7 +8,7 @@ function validateNPC(npc, type = Enemy) {
           )
         : npc;
 }
-getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+getRandomInt = (min, max) => Math.round(Math.random() * (max - min)) + min;
 function gameInit() {
     uploadImages();
     document.body.onkeydown = (event) => {
@@ -53,7 +53,7 @@ function gameMenu() {
                 event.clientY < (g_canvas.height * i) / numberOfCars &&
                 event.clientY > (g_canvas.height * (i - 1)) / numberOfCars
             )
-                currentCar = new Car(images["car" + i], 3, 3, 4);
+                currentCar = new Car(images["car" + i], 5, 5, 5);
         g_canvas.addEventListener("touchstart", (event) => {
             (g_direction = TOUCH),
                 currentCar.setDestination(
@@ -97,7 +97,7 @@ function gameTick() {
     helper = this.validateNPC(helper, Helper);
     helper.move();
     if (currentCar.collision(helper)) helper.hide(), g_counter.inc();
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 6; i++) {
         enemies[i] = this.validateNPC(enemies[i]);
         enemies[i].move();
         if (currentCar.collision(enemies[i])) {

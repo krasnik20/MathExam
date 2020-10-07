@@ -1,4 +1,6 @@
 //вынести размеры вовне и обновлять при растягивании
+//запретить зум
+//скорректировать размер кнопки паузы
 
 var g_canvas = document.getElementById("example");
 g_canvas.width = window.innerWidth;
@@ -41,14 +43,10 @@ var g_direction = STAND;
 var g_intervalId;
 const numberOfEnemies = 6;
 const numberOfCars = 3;
-var characterSize =
-    (g_canvas.height < g_canvas.width ? g_canvas.width : g_canvas.height) / 8;
+var characterSize = (g_canvas.height + g_canvas.width) / 16;
 
 var g_pauseButton = {
-    x: g_canvas.width - 50,
     y: 0,
-    width: 50,
-    height: 50,
     paused: false,
     draw: function () {
         g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -72,6 +70,9 @@ var g_pauseButton = {
         this.draw();
     },
     init: function () {
+        this.width = 100;
+        this.height = this.width;
+        this.x = g_canvas.width - this.width;
         this.imgStop = images["pauseStop"];
         this.imgContinue = images["pauseContinue"];
         this.img = this.imgStop;

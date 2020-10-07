@@ -13,6 +13,8 @@ class NPC {
         return this._img;
     }
     move() {
+        if (currentCar.x - this.x >= this.speed) this.x += this.speed / 10;
+        if (currentCar.x - this.x <= -this.speed) this.x -= this.speed / 10;
         this.cornerX = this.x + this.width;
         this.cornerY = this.y + this.height;
         this.y += this.speed;
@@ -31,6 +33,6 @@ class Helper extends NPC {
         this.img = images["helper1"];
     }
     hide() {
-        this.x *= -1;
+        this.x -= g_canvas.width;
     }
 }
