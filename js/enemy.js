@@ -6,18 +6,20 @@ class NPC {
     }
     set img(img) {
         this._img = img;
-        this.width = characterSize;
-        this.height = (this.width * img.height) / img.width;
+        this.width = characters.size;
+        this.height = this.width * img.height / img.width;
     }
     get img() {
         return this._img;
     }
     move() {
-        if (currentCar.x - this.x >= this.speed) this.x += this.speed / 10;
-        if (currentCar.x - this.x <= -this.speed) this.x -= this.speed / 10;
+        if (this.cornerY > 0) {
+            let dx = this.speed / 5 * (this.x - currentCar.x) / g_canvas.width;
+            this.x -= dx;
+            this.y += Math.sqrt(this.speed ** 2 - dx ** 2);
+        } else this.y += this.speed;
         this.cornerX = this.x + this.width;
         this.cornerY = this.y + this.height;
-        this.y += this.speed;
         g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 }
@@ -33,6 +35,6 @@ class Helper extends NPC {
         this.img = images["helper1"];
     }
     hide() {
-        this.x -= g_canvas.width;
+        this.x -= g_canvas.width * 2;
     }
 }

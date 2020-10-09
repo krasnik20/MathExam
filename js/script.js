@@ -1,14 +1,27 @@
 //вынести размеры вовне и обновлять при растягивании
-//запретить зум
-//скорректировать размер кнопки паузы
+//залипает кнопка
 
 var g_canvas = document.getElementById("example");
 g_canvas.width = window.innerWidth;
 g_canvas.height = window.innerHeight;
 var g_ctx = g_canvas.getContext("2d");
+
+document.addEventListener("DOMContentLoaded", () => g_ctx.fillText("Wait, game is loading...", g_canvas.width / 2, g_canvas.height / 2))
+var controls = {
+    pauseButton: g_pauseButton,
+    counter: g_counter,
+};
+var characters = {
+    enemies: enemies,
+    currentCar: currentCar,
+    helper: helper,
+};
 var g_counter = {
-    count: 2,
-    width: g_canvas.width / 6,
+    init: function () {
+        this.reset();
+        this.width = controls.size * 3;
+        this.height = controls.size;
+    },
     inc: function () {
         if (this.count != 5) this.count++;
     },
@@ -18,13 +31,9 @@ var g_counter = {
     draw: function () {
         g_ctx.font = "Bold " + g_canvas.width / 50 + "pt Arial";
         g_ctx.fillStyle = "#111111";
-        g_ctx.fillRect(g_canvas.width / 2 - this.width / 2, 0, this.width, 50);
+        g_ctx.fillRect(g_canvas.width / 2 - this.width / 2, 0, this.width, this.height);
         g_ctx.fillStyle = "#ffffff";
-        g_ctx.fillText(
-            "Score:" + this.count,
-            g_canvas.width / 2 - this.width / 2 + 5,
-            40
-        );
+        g_ctx.fillText("Score:" + this.count, g_canvas.width / 2 - this.width / 2 + 5, 40);
     },
 };
 var currentCar;
@@ -43,7 +52,6 @@ var g_direction = STAND;
 var g_intervalId;
 const numberOfEnemies = 6;
 const numberOfCars = 3;
-var characterSize = (g_canvas.height + g_canvas.width) / 16;
 
 var g_pauseButton = {
     y: 0,
@@ -52,12 +60,7 @@ var g_pauseButton = {
         g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     },
     clicked: function (x, y) {
-        if (
-            x > this.x &&
-            x < this.x + this.width &&
-            y > this.y &&
-            y < this.y + this.height
-        )
+        if (x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height)
             if (this.paused) {
                 this.paused = false;
                 this.img = this.imgStop;
@@ -70,13 +73,13 @@ var g_pauseButton = {
         this.draw();
     },
     init: function () {
-        this.width = 100;
+        this.width = controls.size;
         this.height = this.width;
         this.x = g_canvas.width - this.width;
         this.imgStop = images["pauseStop"];
         this.imgContinue = images["pauseContinue"];
         this.img = this.imgStop;
-    },
+    }
 };
 var enemies = [];
 var images = [];
@@ -86,7 +89,6 @@ function uploadImages() {
         images["enemy" + i].src = "images/enemycar" + i + ".png";
     }
     for (let i = 1; i <= numberOfCars; i++) {
-        console.log("car" + i);
         images["car" + i] = new Image();
         images["car" + i].src = "images/car" + i + ".png";
     }
