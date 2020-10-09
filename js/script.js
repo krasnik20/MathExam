@@ -1,5 +1,6 @@
 //вынести размеры вовне и обновлять при растягивании
 //залипает кнопка
+//внести все контролы и штучки для персонажей в соотв объект
 
 var g_canvas = document.getElementById("example");
 g_canvas.width = window.innerWidth;

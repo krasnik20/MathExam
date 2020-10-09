@@ -2,7 +2,7 @@ function validateNPC(npc, type = Enemy) {
     return npc == null || npc.y >= g_canvas.height
         ? new type(
             getRandomInt(0, g_canvas.width),
-            -getRandomInt(200, g_canvas.height),
+            -getRandomInt(200, g_canvas.height * 1.5),
             getRandomInt(1, 6),
             getRandomInt(characters.minspeed, characters.speed)
         )
@@ -89,7 +89,7 @@ function gameTick() {
     road.show();
     currentCar.move();
     helper = this.validateNPC(helper, Helper);
-    // helper.move();
+    helper.move();
     if (currentCar.collision(helper)) helper.hide(), g_counter.inc();
     for (let i = 0; i < characters.enemiesQuantity; i++) {
         enemies[i] = this.validateNPC(enemies[i]);
