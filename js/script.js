@@ -45,16 +45,16 @@ document.addEventListener("DOMContentLoaded", () => {
     g_ctx.fillText("Loading...", g_canvas.width / 2, g_canvas.height / 2);
 });
 
-var LEFT = 65;
-var RIGHT = 68;
-var UP = 87;
-var DOWN = 83;
-var TOUCH = 1;
-var STAND = 0;
 var FPS = 120;
-var g_direction = STAND;
 var g_intervalId;
-
+var keys =
+{
+    up: false,
+    down: false,
+    right: false,
+    left: false,
+    touch: false
+};
 
 controls.counter = {
     init: function () {

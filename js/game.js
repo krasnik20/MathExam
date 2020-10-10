@@ -22,23 +22,25 @@ function gameInit() {
 }
 function assignGameControls() {
     document.body.onkeydown = (event) => {
-        if (event.code == "ArrowUp" || event.code == "KeyW") g_direction = UP;
-        if (event.code == "ArrowLeft" || event.code == "KeyA") g_direction = LEFT;
-        if (event.code == "ArrowDown" || event.code == "KeyS") g_direction = DOWN;
-        if (event.code == "ArrowRight" || event.code == "KeyR") g_direction = RIGHT;
+        if (event.code == "ArrowUp" || event.code == "KeyW") keys["up"] = true;
+        if (event.code == "ArrowLeft" || event.code == "KeyA") keys["left"] = true;
+        if (event.code == "ArrowDown" || event.code == "KeyS") keys["down"] = true;
+        if (event.code == "ArrowRight" || event.code == "KeyR") keys["right"] = true;
         if (event.code == "Escape") controls.pauseButton.pressed();
     };
-    document.body.onkeyup = (event) => (g_direction = STAND);
+    document.body.onkeyup = (event) => {
+        if (event.code == "ArrowUp" || event.code == "KeyW") keys["up"] = false;
+        if (event.code == "ArrowLeft" || event.code == "KeyA") keys["left"] = false;
+        if (event.code == "ArrowDown" || event.code == "KeyS") keys["down"] = false;
+        if (event.code == "ArrowRight" || event.code == "KeyR") keys["right"] = false;
+    };
     g_canvas.addEventListener("touchstart", (event) => {
-        g_direction = TOUCH;
+        keys["touch"] = true;
         characters.currentCar.setDestination(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
     });
-    g_canvas.addEventListener("touchmove", (event) => {
-        characters.currentCar.setDestination(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
-    });
-    g_canvas.addEventListener("touchend", (event) => {
-        g_direction = STAND;
-    });
+    g_canvas.addEventListener("touchmove", (event) =>
+        characters.currentCar.setDestination(event.changedTouches[0].clientX, event.changedTouches[0].clientY));
+    g_canvas.addEventListener("touchend", (event) => keys["touch"] = false);
 }
 function gameMenu() {
     assignMenuControls();

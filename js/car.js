@@ -8,19 +8,17 @@ class Car {
         this.speed = speed;
     }
     move() {
-        if (g_direction == LEFT) this.x -= this.speed;
-        if (g_direction == RIGHT) this.x += this.speed;
-        if (g_direction == UP) this.y -= this.speed;
-        if (g_direction == DOWN) this.y += this.speed;
-        if (g_direction == TOUCH) {
-            if (Math.abs(this.destX - this.x) > this.speed)
-                this.x +=
-                    this.destX - this.x > 0 ? this.speed : -this.speed;
-            if (Math.abs(this.destY - this.y) > this.speed)
-                this.y +=
-                    this.destY - this.y > 0
-                        ? +this.speed
-                        : -this.speed;
+        if (keys["left"]) this.x -= this.speed;
+        if (keys["right"]) this.x += this.speed;
+        if (keys["up"]) this.y -= this.speed;
+        if (keys["down"]) this.y += this.speed;
+        if (keys["touch"]) {
+            let centerX = this.x + this.width / 2;
+            let centerY = this.y + this.height / 2;
+            if (Math.abs(this.destX - centerX) > this.speed)
+                this.x += this.destX - centerX > 0 ? this.speed : -this.speed;
+            if (Math.abs(this.destY - centerY) > this.speed)
+                this.y += this.destY - centerY > 0 ? this.speed : -this.speed;
         }
         if (this.y > g_canvas.height - 20 - this.height)
             this.y -= this.speed;
