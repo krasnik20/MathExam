@@ -50,10 +50,6 @@ var RIGHT = 68;
 var UP = 87;
 var DOWN = 83;
 var TOUCH = 1;
-var ANOTHERLEFT = 37;
-var ANOTHERRIGHT = 39;
-var ANOTHERUP = 38;
-var ANOTHERDOWN = 40;
 var STAND = 0;
 var FPS = 120;
 var g_direction = STAND;
@@ -87,7 +83,7 @@ controls.pauseButton = {
         g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     },
     clicked: function (x, y) {
-        if (x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height)
+        if (x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height) {
             if (this.paused) {
                 this.paused = false;
                 this.img = this.imgStop;
@@ -97,6 +93,19 @@ controls.pauseButton = {
                 this.img = this.imgContinue;
                 gamePause();
             }
+            this.draw();
+        }
+    },
+    pressed: function () {
+        if (this.paused) {
+            this.paused = false;
+            this.img = this.imgStop;
+            gameContinue();
+        } else {
+            this.paused = true;
+            this.img = this.imgContinue;
+            gamePause();
+        }
         this.draw();
     },
     init: function () {
