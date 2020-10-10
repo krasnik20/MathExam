@@ -6,7 +6,6 @@ class Car {
         this.x = g_canvas.width / 2 - this.width / 2;
         this.y = (g_canvas.height * 4) / 5;
         this.speed = speed;
-        //console.log("Player:", this.height, " ", this.speed);
     }
     move() {
         if (g_direction == LEFT) this.x -= this.speed;
@@ -29,10 +28,12 @@ class Car {
         if (this.x < 10) this.x += this.speed;
         if (this.x > g_canvas.width - 10 - this.width) this.x -= this.speed;
         g_ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        this.cornerX = this.x + this.width;
+        this.cornerY = this.y + this.height;
     }
     collision(enemy) {
-        let errorw = this.width / 15;
-        let errorh = this.height / 25;
+        let errorw = 0;
+        let errorh = 0;
         if (this.x <= enemy.cornerX - errorw &&
             this.x >= enemy.x + errorw &&
             (this.cornerY >= enemy.y + errorh && this.cornerY <= enemy.cornerY - errorh ||

@@ -14,7 +14,7 @@ class NPC {
     }
     move() {
         if (this.cornerY > 0) {
-            let dx = this.speed / 5 * (this.x - currentCar.x) / g_canvas.width;
+            let dx = this.speed / 5 * (this.x - characters.currentCar.x) / g_canvas.width;
             this.x -= dx;
             this.y += Math.sqrt(this.speed ** 2 - dx ** 2);
         } else this.y += this.speed;
